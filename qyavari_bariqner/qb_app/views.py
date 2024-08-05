@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from . import forms
 from django.contrib.auth import login, logout, authenticate
@@ -42,3 +42,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+def prod_detail_view(request, prod_id):
+    prod = get_object_or_404(models.Product, id=prod_id)
+    return render(request, 'product_details.html', {'prod': prod})
+
