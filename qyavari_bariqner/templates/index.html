@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,154 +7,27 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Qyavari Bariqner</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Raleway:wght@400;700&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
-        body {
-            font-family: 'Lora', serif;
-            background-color: #f9f9f9;
-            color: #4d3319;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.5s ease;
-        }
-        header {
-            background-color: #900C3F;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 36px;
-            font-family: 'Raleway', sans-serif;
-        }
-        header p {
-            margin: 5px 0 20px;
-            font-size: 20px;
-            font-family: 'Lora', serif;
-        }
-        .nav-links {
-            margin: 20px 0;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover {
-            color: #f9c2c2;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        .product {
-            border: 1px solid #ccc;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            width: calc(33% - 40px);
-            box-sizing: border-box;
-            text-align: center;
-            position: relative;
-        }
-        .product:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-        .product h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #900C3F;
-            font-family: 'Raleway', sans-serif;
-        }
-        .product img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            margin: 10px 0;
-            border: 5px solid #900C3F;
-            border-radius: 10px;
-        }
-        .product p {
-            font-size: 18px;
-            margin: 5px 0;
-        }
-        footer {
-            background-color: #900C3F;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .product {
-            animation: fadeIn 1s ease-in-out;
-        }
-        .quantity-input {
-            width: 50px;
-            padding: 5px;
-            margin-right: 10px;
-            text-align: center;
-            border: 1px solid #900C3F;
-            border-radius: 5px;
-        }
-        .add-to-cart-button {
-            background-color: #900C3F;
-            color: #fff; /* Белый цвет иконки */
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 24px; /* Размер иконки */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-        }
-        .add-to-cart-button:hover {
-            background-color: #73102F;
-        }
-        .add-to-cart-button i {
-            font-size: 24px; /* Размер иконки */
-            color: #fff; /* Белый цвет иконки */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
     <header>
-        <h1>Qyavari Bariqner</h1>
-        <p>Traditional Handmade Products from Gavar, Armenia</p>
-        <div class="nav-links">
-            <a href="{% url 'home' %}">Home</a>
-            {% if user.is_authenticated %}
-            <a href="{% url 'cart_detail' %}">Cart</a>
-            <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
-            {% endif %}
+        <div class="nav">
+
+            <a href="{% url 'home' %}"><img src="https://i.ibb.co/KKphY1Q/QYAVARI-BARIQNER.png"></a>
+
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                <a href="{% url 'cart_detail' %}" class="nav-btn">Cart</a>
+                <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+                <a href="{% url 'user_profile' user.id %}" class="nav-btn">Profile</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="nav-btn">Login</a>
+                <a href="{% url 'register' %}" class="nav-btn" id="reg-btn">Register</a>
+                {% endif %}
+            </div>
+            
         </div>
+        <h1>Traditional Handmade Products from Gavar, Armenia</h1>
     </header>
     <div class="container">
         {% for prod in product %}
@@ -163,12 +37,18 @@
                 <img src="{{ prod.image.url }}" alt="{{ prod.name }}">
             </a>
             <p>Price: {{ prod.price }} ֏</p>
-            <form method="post" action="{% url 'add_to_cart' prod.id %}">
+            {%if not user.is_authenticated%}
+            <a href="{% url 'register' %}" class="fas fa-shopping-cart" id="product-btn"></a>
+            
+            {%else%}
+            <form method="POST" action="{% url 'add_to_cart' prod.id %}">
                 {% csrf_token %}
                 <input type="number" name="quantity" value="1" min="1" class="quantity-input">
                 <button type="submit" class="add-to-cart-button" title="Add to Cart">
                     <i class="fas fa-shopping-cart"></i> <!-- Иконка корзины FontAwesome -->
                 </button>
+            {%endif%}
+                
             </form>
         </div>
         {% endfor %}

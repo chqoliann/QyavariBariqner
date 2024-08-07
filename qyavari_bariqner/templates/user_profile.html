@@ -1,0 +1,9 @@
+<!-- user_profile.html -->
+<img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="{{ profile.user.username }}'s profile picture" class="profile-picture">
+<div class="profile-info">
+    <h2>{{ profile.user.username }}</h2>
+    <p><strong>Email:</strong> {{ profile.user.email }}</p>
+    {% if profile.bio %}
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    {% endif %}
+</div>

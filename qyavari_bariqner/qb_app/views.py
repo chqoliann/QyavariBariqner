@@ -20,10 +20,14 @@ def register_view(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             models.Cart.objects.create(user=user)
+            models.UserProfile.objects.create(user=user)
             login(request, user)
             return redirect('home')
+        else:
+            print("Form is not valid")
+            print(form.errors)
     else:
-        form = forms.RegistrationForm
+        form = forms.RegistrationForm()
     return render(request, 'register.html', {'form': form})
 
 
@@ -57,7 +61,20 @@ def cart_detail(request):
     cart, created = models.Cart.objects.get_or_create(user=request.user)
     cart_items = models.CartItem.objects.filter(cart=cart)
     total_price = sum(item.product.price * item.quantity for item in cart_items)
-    return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': total_price})
+
+    # Create a list with subtotals
+    items_with_subtotals = [
+        {
+            'item': item,
+            'subtotal': item.product.price * item.quantity
+        }
+        for item in cart_items
+    ]
+
+    return render(request, 'cart_detail.html', {
+        'cart_items': items_with_subtotals,
+        'total_price': total_price,
+    })
 
 
 @login_required
@@ -89,3 +106,11 @@ def remove_cart(request, item_id):
     cart_item.delete()
 
     return redirect('cart_detail')
+
+
+@login_required
+def user_profile_view(request, user_id):
+    user_profile = models.UserProfile.objects.get(user_id=user_id)
+    return render(request, 'user_profile.html', {'profile': user_profile})
+
+
