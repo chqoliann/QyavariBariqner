@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cart - Qyavari Bariqner</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Raleway:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: #f9f9f9;
+            color: #4d3319;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.5s ease;
+        }
+        header {
+            background-color: #900C3F;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+            font-family: 'Raleway', sans-serif;
+        }
+        header p {
+            margin: 5px 0 20px;
+            font-size: 20px;
+            font-family: 'Lora', serif;
+        }
+        .nav-links {
+            margin: 20px 0;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: #f9c2c2;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .cart-item h2 {
+            font-size: 24px;
+            color: #900C3F;
+            font-family: 'Raleway', sans-serif;
+        }
+        .cart-item p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+            margin: 10px;
+            border: 3px solid #900C3F;
+            border-radius: 10px;
+        }
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+        }
+        footer {
+            background-color: #900C3F;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Qyavari Bariqner</h1>
+        <p>Traditional Handmade Products from Gavar, Armenia</p>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'cart_detail' %}">Cart</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="container">
+        <h1>Your Cart</h1>
+        {% if cart_items %}
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <div>
+                        <h2>{{ item.product.name }}</h2>
+                        <p>Price: {{ item.product.price }} ֏</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Subtotal: {{ item.product.price|floatformat:2 }} ֏</p>
+                    </div>
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                </div>
+            {% endfor %}
+            <div class="total">
+                <p>Total Price: {{ total_price|floatformat:2 }} ֏</p>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
