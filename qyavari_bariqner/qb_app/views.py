@@ -114,3 +114,21 @@ def user_profile_view(request, user_id):
     return render(request, 'user_profile.html', {'profile': user_profile})
 
 
+def liked_products_view(request):
+    profile = models.UserProfile.objects.get(user=request.user)
+    liked_products = profile.liked_products.all()
+    return render(request, 'like_products.html', {'liked_products': liked_products})
+
+
+def like_product(request, prod_id):
+    product = models.Product.objects.get(id=prod_id)
+    profile, created = models.UserProfile.objects.get_or_create(user=request.user)
+
+    if product in profile.liked_products.all():
+        profile.liked_products.remove(product)
+    else:
+        profile.liked_products.add(product)
+
+    return redirect('like_products')
+
+

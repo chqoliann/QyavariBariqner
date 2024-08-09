@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liked Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            background-color: #3e8e41;
+            border-radius: 5px;
+        }
+
+        .nav-btn:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .liked-products-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .liked-product-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .liked-product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .liked-product-details {
+            margin-top: 10px;
+        }
+
+        .liked-product-details h2 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .liked-product-details p {
+            font-size: 16px;
+            color: #888;
+        }
+
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav">
+            <a href="{% url 'home' %}"><img src="https://i.ibb.co/KKphY1Q/QYAVARI-BARIQNER.png" alt="Qyavari Bariqner"></a>
+            <div class="nav-links">
+                <a href="{% url 'home' %}" class="nav-btn">Home</a>
+                <a href="{% url 'cart_detail' %}" class="nav-btn">Cart</a>
+                <a href="{% url 'user_profile' user.id %}" class="nav-btn">Profile</a>
+                <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
+            </div>
+        </div>
+        <h1>Your Liked Products</h1>
+    </header>
+
+    <div class="container">
+        {% if liked_products %}
+            <ul class="liked-products-list">
+                {% for product in liked_products %}
+                    <li class="liked-product-item">
+                        <a href="{% url 'prod_details' product.id %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="liked-product-image">
+                        </a>
+                        <div class="liked-product-details">
+                            <h2>{{ product.name }}</h2>
+                            <p>Price: {{ product.price }} ֏</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven't liked any products yet.</p>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Qyavari Bariqner. All rights reserved.</p>
+    </footer>
+</body>
+</html>

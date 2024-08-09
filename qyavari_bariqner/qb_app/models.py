@@ -34,9 +34,13 @@ class CartItem(models.Model):
     def __str__(self):
         return f'{self.cart}'
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
+    liked_products = models.ManyToManyField(Product)
 
     def __str__(self):
         return self.user.username
+
+
