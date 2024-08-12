@@ -4,10 +4,6 @@ from . import forms
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from google.cloud import dialogflow_v2 as dialogflow
-from django.views.decorators.csrf import csrf_exempt
-import json
 
 
 def home(request):
@@ -46,7 +42,7 @@ def login_view(request):
                 login(request, user)
                 return redirect('home')
     else:
-        form = forms.LoginForm
+        form = forms.LoginForm()    
     return render(request, 'login.html', {'form': form})
 
 
