@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Qyavari Bariqner</title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
@@ -18,7 +18,7 @@
                 <a href="{% url 'cart_detail' %}" class="nav-btn">Cart</a>
                 <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
                 <a href="{% url 'user_profile' user.id %}" class="nav-btn">Profile</a>
-                <a href="{% url 'like_products' %}" class="nav-btn">Liked Products</a>
+                <a href="{% url 'like_products' %}" class="nav-btn" id="liked-prod">Liked Products</a>
 
                 {% else %}
                 <a href="{% url 'login' %}" class="nav-btn">Login</a>

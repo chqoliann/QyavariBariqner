@@ -64,6 +64,11 @@
         .register-container button:hover {
             background-color: #7a0932;
         }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +78,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Register</button>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
         </form>
     </div>
 </body>

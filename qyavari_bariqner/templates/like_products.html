@@ -6,14 +6,16 @@
     <title>Liked Products</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+    background: rgb(34, 193, 195);
+    background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+    font-family: 'Lora', serif;
+    color: #4d3319;
+    margin: 0;
+    padding: 0;
+}
 
         header {
-            background-color: #4CAF50;
+            background-color: rgba(0, 0, 1, 0.1);
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -48,9 +50,14 @@
         }
 
         h1 {
+            color: #fff;
             margin: 20px 0;
             font-size: 24px;
             text-align: center;
+        }
+
+        p {
+            color: #fff;
         }
 
         .liked-products-list {
@@ -93,13 +100,28 @@
         }
 
         footer {
-            background-color: #4CAF50;
+            background-color: rgba(0, 0, 1, 0.1);
             color: white;
             text-align: center;
             padding: 10px 0;
             position: fixed;
             width: 100%;
             bottom: 0;
+        }
+
+        @media screen and (max-width: 960px) {
+            .container {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin: auto;
+    }
+
+    .nav{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
         }
     </style>
 </head>
@@ -114,10 +136,10 @@
                 <a href="{% url 'logout' %}" class="nav-btn">Logout</a>
             </div>
         </div>
-        <h1>Your Liked Products</h1>
     </header>
 
     <div class="container">
+        <h1>Your Liked Products</h1>
         {% if liked_products %}
             <ul class="liked-products-list">
                 {% for product in liked_products %}

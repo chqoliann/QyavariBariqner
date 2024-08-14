@@ -13,8 +13,9 @@ urlpatterns = [
     path('cart/remove/<int:item_id>/', views.remove_cart, name='remove_cart'),
     path('user_profile/<int:user_id>/', views.user_profile_view, name='user_profile'),
     path('product/<int:prod_id>/like/', views.like_product, name='like_product'),
-    path('product/like', views.liked_products_view, name='like_products')
-
+    path('product/like/', views.liked_products_view, name='like_products'),
+    path('verify-email/<uidb64>/<token>/', views.verify_email, name='verify-email'),
+    path('email-confirmation-pending/', views.email_confirmation_pending, name='email_confirmation_pending'),
+    path('email-verification-success/', views.email_verification_success, name='email_verification_success'),
+    path('email-verification-failed/', views.email_verification_failed, name='email_verification_failed'),
 ]
-
-

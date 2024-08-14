@@ -4,6 +4,13 @@ from . import forms
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from .tokens import email_verification_token
+from django.contrib.auth import get_user_model
+from django.utils.http import urlsafe_base64_decode
 
 
 def home(request):
@@ -21,8 +28,8 @@ def register_view(request):
             user.save()
             models.Cart.objects.create(user=user)
             models.UserProfile.objects.create(user=user)
-            login(request, user)
-            return redirect('home')
+            send_verification_email(user)
+            return redirect('email_confirmation_pending')  # Перенаправляем пользователя на страницу ожидания подтверждения email
         else:
             print("Form is not valid")
             print(form.errors)
@@ -62,7 +69,7 @@ def cart_detail(request):
     cart_items = models.CartItem.objects.filter(cart=cart)
     total_price = sum(item.product.price * item.quantity for item in cart_items)
 
-    # Create a list with subtotals
+
     items_with_subtotals = [
         {
             'item': item,
@@ -133,3 +140,46 @@ def like_product(request, prod_id):
 
 
 
+def send_verification_email(user):
+    token = email_verification_token.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    verification_link = reverse('verify-email', kwargs={'uidb64': uid, 'token': token})
+    activation_url = f"http://127.0.0.1:8000/{verification_link}"
+    
+    send_mail(
+        'Verify your email',
+        f'Click the following link to verify your email: {activation_url}'
+        [user.email],
+        fail_silently=False,
+    )
+
+
+
+def verify_email(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and email_verification_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)  # Логиним пользователя после успешной активации
+        return redirect('email_verification_success')
+    else:
+        return redirect('email_verification_failed')
+  
+
+
+def email_confirmation_pending(request):
+    return render(request, 'email_confirmation_pending.html')
+
+
+def email_verification_success(request):
+    return render(request, 'email_verification_success.html')
+
+
+def email_verification_failed(request):
+    return render(request, 'email_confirmation_failed.html')

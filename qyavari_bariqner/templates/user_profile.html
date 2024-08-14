@@ -1,4 +1,13 @@
-<!-- user_profile.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Qyavari Bariqner</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
 <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://via.placeholder.com/150{% endif %}" alt="{{ profile.user.username }}'s profile picture" class="profile-picture">
 <div class="profile-info">
     <h2>{{ profile.user.username }}</h2>

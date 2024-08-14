@@ -8,14 +8,15 @@
     <title>Cart Detail</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
+    background: rgb(34,193,195);
+    background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+    font-family: 'Lora', serif;
+    color: #4d3319;
+    margin: 0;
+    padding: 0;
+}
         header {
-            background-color: #900C3F;
+            background-color: rgba(0, 0, 1, 0.1);
             color: #fff;
             padding: 20px;
             text-align: center;
@@ -30,7 +31,7 @@
             max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -47,7 +48,7 @@
             gap: 10px;
         }
         .remove-item-button {
-            background-color: #900C3F;
+            background-color: rgb(34, 195, 120);
             color: #fff;
             border: none;
             padding: 5px 10px;
@@ -56,10 +57,10 @@
             transition: background-color 0.3s;
         }
         .remove-item-button:hover {
-            background-color: #73102F;
+            background-color: rgb(34, 195, 255);
         }
         .clear-cart-button {
-            background-color: #900C3F;
+            background-color: rgb(34, 195, 120);
             color: #fff;
             padding: 10px 20px;
             text-decoration: none;
@@ -67,31 +68,22 @@
             transition: background-color 0.3s;
         }
         .clear-cart-button:hover {
-            background-color: #73102F;
+            background-color: rgb(34, 195, 255);
         }
         .nav-links {
             margin: 20px 0;
         }
         .nav-links a {
-            color: #900C3F;
+            color: #fff;
             text-decoration: none;
             margin: 0 10px;
             font-size: 18px;
             transition: color 0.3s;
         }
         .nav-links a:hover {
-            color: #73102F;
+            color: #22c1c3;
         }
-        footer {
-            background-color: #900C3F;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-        }
+
         .product-image {
             width: 100px;
             height: 100px;
@@ -136,8 +128,5 @@
         {% endif %}
     </div>
 
-    <footer>
-        <!-- Your footer content here -->
-    </footer>
 </body>
 </html>

@@ -2,7 +2,7 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
 body {
-    background: rgb(34,193,195);
+    background: rgb(34, 193, 195);
     background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
     font-family: 'Lora', serif;
     color: #4d3319;
@@ -181,12 +181,20 @@ footer {
         flex-direction: column;
         margin: auto;
     }
-  }
 
-@media screen and (max-width: 530px)  {
-    .nav-links{
+    .nav{
         display: flex;
         flex-direction: column;
         gap: 20px;
     }
-}
+
+  }
+
+  @media screen and (max-width: 530px) {
+    .nav-links{
+        display: flex;
+        flex-direction: column;
+        flex: 1 1;
+        gap: 20px;
+    }
+  }
