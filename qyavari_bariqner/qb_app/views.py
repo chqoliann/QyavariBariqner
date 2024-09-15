@@ -83,7 +83,6 @@ def cart_detail(request):
         'total_price': total_price,
     })
 
-
 @login_required
 @require_POST
 def add_to_cart(request, prod_id):
@@ -98,7 +97,6 @@ def add_to_cart(request, prod_id):
     cart_item.save()
 
     return redirect('cart_detail')
-
 
 @login_required
 def clear_cart(request):
@@ -148,7 +146,8 @@ def send_verification_email(user):
     
     send_mail(
         'Verify your email',
-        f'Click the following link to verify your email: {activation_url}'
+        f'Click the following link to verify your email: {activation_url}',
+        None,  # Адрес отправителя, например, 'no-reply@example.com'
         [user.email],
         fail_silently=False,
     )
@@ -183,3 +182,5 @@ def email_verification_success(request):
 
 def email_verification_failed(request):
     return render(request, 'email_confirmation_failed.html')
+
+

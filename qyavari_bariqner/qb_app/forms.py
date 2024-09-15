@@ -43,7 +43,7 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
             # Импортируем send_verification_email внутри метода
-            from qb_app.views import send_verification_email
+            from views import send_verification_email
             send_verification_email(user)  # Отправляем письмо с верификацией
         return user
 
