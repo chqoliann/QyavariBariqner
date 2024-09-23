@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'actstream',
+    'django_user_agents',
     'qb_app',
     'manager_app',
     'rest_framework',
@@ -40,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'manager_app.middleware.UpdateLastActivityMiddleware'
 ]
 
 ROOT_URLCONF = 'qyavari_bariqner.urls'
@@ -140,3 +144,7 @@ EMAIL_HOST_PASSWORD = 'qlez hwbz gxnr uqnk'
 
 
 
+CSRF_TRUSTED_ORIGINS = ['https://fd1b-5-77-207-49.ngrok-free.app']
+
+
+    

@@ -7,10 +7,22 @@
 </head>
 <body>
     <h2>Manager Login</h2>
-        <form method='post'>
-            {%csrf_token%}
-            {{form.as_p}}
-            <button type='submit'>Login</button>
-        </form>
+    
+    <!-- Обработка сообщений об ошибках и успешных действиях -->
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>

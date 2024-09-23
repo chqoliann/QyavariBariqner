@@ -11,7 +11,7 @@ from django.utils.encoding import force_bytes
 from .tokens import email_verification_token
 from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_decode
-
+from django.http import HttpResponse
 
 def home(request):
     prods = models.Product.objects.all()
@@ -142,7 +142,7 @@ def send_verification_email(user):
     token = email_verification_token.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_link = reverse('verify-email', kwargs={'uidb64': uid, 'token': token})
-    activation_url = f"http://127.0.0.1:8000/{verification_link}"
+    activation_url = f"https://fd1b-5-77-207-49.ngrok-free.app/{verification_link}"
     
     send_mail(
         'Verify your email',
@@ -183,4 +183,49 @@ def email_verification_success(request):
 def email_verification_failed(request):
     return render(request, 'email_confirmation_failed.html')
 
+
+@login_required
+def create_order(request):
+    user = request.user
+
+    try:
+
+        cart = models.Cart.objects.get(user=user)
+
+    except models.Cart.DoesNotExist:
+
+        return redirect('cart')
+
+    cart_items = models.CartItem.objects.filter(cart=cart)
+
+    if not cart_items.exists():
+        return HttpResponse('Your cart is empty', status=400)
+    
+
+    order = models.Order.objects.create(user=user)
+
+    for item in cart_items:
+        models.OrderItem.objects.create(
+                order = order,
+                product = item.product,
+                quantity = item.quantity,
+                price = item.product.price,
+                total_amount = sum(item.product.price * item.quantity for item in cart_items)
+
+                )
+    
+        
+    cart_items.delete()
+
+
+    return redirect('order_confirmation', order_id = order.id)
+
+
+
+def order_confirmation(request, order_id):
+    order = get_object_or_404(models.Order, id=order_id)
+    order_item = models.OrderItem.objects.filter(order=order)
+    total_amout = sum(item.price * item.quantity for item in order_item)
+
+    return render(request, 'order_confirmation.html', {'order':order, 'total_amount':total_amout})
 

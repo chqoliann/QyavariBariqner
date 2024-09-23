@@ -4,10 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manager Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2, h3 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .delete-form {
+            display: inline;
+        }
+        .delete-button {
+            color: #FF0000;
+            border: none;
+            background: none;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Manager Dashboard</h1>
+    <h2>Manager Dashboard</h2>
 
-    <p>To Be Continued...</p>
+    {% comment %} Общий список пользователей {% endcomment %}
+    <h3>Total Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Last Login</th>
+                <th>Last Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+                <tr>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.user.email }}</td>
+                    <td>{{ profile.user.last_login }}</td>
+                    <td>{{ profile.last_activity }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% comment %} Список активных пользователей {% endcomment %}
+    <h3>Active Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Last Login</th>
+                <th>Last Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in active_profiles %}
+                <tr>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.user.email }}</td>
+                    <td>{{ profile.user.last_login }}</td>
+                    <td>{{ profile.last_activity }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No active users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% comment %} Список неактивных пользователей {% endcomment %}
+    <h3>Inactive Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Last Login</th>
+                <th>Last Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in inactive_profiles %}
+                <tr>
+                    <td>{{ profile.user.username }}</td>
+                    <td>{{ profile.user.email }}</td>
+                    <td>{{ profile.user.last_login }}</td>
+                    <td>{{ profile.last_activity|default:"No activity" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No inactive users found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% comment %} Список заказов {% endcomment %}
+    <h3>Orders</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Total Price</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user.username }}</td>
+                    <td>{{ order.total_price|floatformat:2 }} ֏</td>
+                    <td>{{ order.created_at }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>
+                        <form class="delete-form" action="{% url 'delete_order' order.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No orders found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'logout' %}">Log out</a>
 </body>
 </html>

@@ -18,4 +18,7 @@ urlpatterns = [
     path('email-confirmation-pending/', views.email_confirmation_pending, name='email_confirmation_pending'),
     path('email-verification-success/', views.email_verification_success, name='email_verification_success'),
     path('email-verification-failed/', views.email_verification_failed, name='email_verification_failed'),
+    path('create_order', views.create_order, name='create_order'),
+    path('order_confirmation/<int:order_id>', views.order_confirmation, name='order_confirmation')
 ]
+

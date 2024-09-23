@@ -126,6 +126,14 @@
         {% else %}
             <p>Your cart is empty.</p>
         {% endif %}
+        {% if cart_items %}
+
+        
+        <form method="post" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <button type="submit">Buy</button>
+        </form>
+    {% endif %}
     </div>
 
 </body>

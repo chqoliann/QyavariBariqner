@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h2>Order Confirmation</h2>
+    <p>Thank you for your order! Your order number is {{ order.id }}.</p>
+    <p>Total Price: {{ total_amount }}</p>
+
+    <h3>Order Details</h3>
+    <ul>
+        {% for item in order.orderitems.all %}
+            <li>{{ item.product.name }} - {{ item.quantity }} x {{ item.price }} = {{ item.get_total_price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
