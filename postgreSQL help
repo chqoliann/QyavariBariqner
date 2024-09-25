@@ -1,0 +1,70 @@
+CREATE - hraman, data bazayum inchvor ban stexcelu hamar
+
+PRIMARY KEY - hraman, vorov nshanakum enq tvyal syunaky vorpes ID
+
+INSERT INTO - hraman, vorov karoxenq avelacnel tvyalner axyusaki mej
+
+VALUES - hraman, vorov nshum enq, te inch tvyalner petq e avelacven nshvac syunakum
+
+UPDATE, SET hraman,vorov popoxum enq syunaknery yst paymani
+ 	
+WHERE - hraman, vorov stexcumenq paymannery
+
+DELETE - hraman, vorov jnjum enq syunakneri nshanakutyunnery, ayspes asac grancumnery
+
+DROP TABLE - hraman, vorov jnjumenq axyusaky
+
+ALTER TABLE - hraman, vorov karox enq katarel popoxutyunner axyusaki syunakneri het
+	ADD COLUMN - nor syunak avelacnelu mijoc
+	DROP COLUMN - syunak jnjelu mijoc
+	MODIFY COLUMN - syunaki data type popoxelu mijoc
+	RENAME TO - axyusaki anuny popoxelu mijoc
+
+SELECT FROM - hraman, vorov verabervum enq syunaknerin, gorcoxutyun katarelu hamar
+
+CONSTRAINT - hraman, vorov stexcum enq orenq tvyalneri kazmakerpman hamar
+
+FOREIGN KEY - hraman, vorov stexcum enq nerqin yurahatuk banali
+
+REFERENCES - hraman, vorov nshanakumenq ayn axyusaky, vori hamar stexcvume foreign key-y
+
+JOIN, ON - hraman, vorov miavorum enq tarber axyusakneric syunaknery ev result anum
+	INNER JOIN: Возвращает строки, имеющие совпадения в обеих таблицах.
+		SELECT columns FROM table1 INNER JOIN table2 ON table1.column = table2.column;
+	RIGHT JOIN: Возвращает все строки из правой таблицы и совпадающие строки из левой таблицы.
+		SELECT columns FROM table1 RIGHT JOIN table2 ON table1.column = table2.column;
+
+DISTINCT - veradarcnum e yurahatuk nshanatuynnery (chkrkrnvox nshanakutyunnery)
+	SELECT DISTINCT column_name FROM table_name;
+
+ORDER BY - tesakavorum e yst paymani
+	SELECT column_name FROM table_name ORDER BY column_name ASC|DESC;
+
+MIN - veradarcnum e minimum nshanakutyuny syunaki mejic
+	SELECT MIN(column_name) FROM table_name;
+
+MAX - veradarcnum e maximum nshanakutyuny syunaki mejic
+	SELECT MAX(column_name) FROM table_name;
+
+COUNT - veradarcnum e toxeri qanaky yst paymani
+	SELECT COUNT(column_name) FROM table_name;
+
+AVG - veradarcnume mijin nshanakutyuny syunaki
+	SELECT AVG(column_name) FROM table_name;
+
+SUM  - veredarcnum e syunaki nshanakutyunneri gumary
+	SELECT SUM(column_name) FROM table_name;
+
+LIKE - ogtagorcvum e voronman hamar yst shabloni
+	SELECT column_name FROM table_name WHERE column_name LIKE pattern;
+	LIKE '%a%' находит строки, где column_name содержит букву "a".
+
+BETWEEN - ogtagorcvume voronman hamar yst nshvac intervalum
+	SELECT column_name FROM table_name WHERE column_name BETWEEN value1 AND value2;
+
+GROUP BY - xmbavorume nuyn nshanakutyunnery nshvac syunakneric 
+
+TRUNCATE - jnjelu mijoc, vory chi yntunum payman, ev jnjum e bolor informacian nshvac axyussakic, toxnelov menak syunaknery
+
+ASC, DESC - filtner, voronq ogtagorcvum en tesakavorman mej, yst nvazman(DESC) ev achman(ASC) kargeri
+	
