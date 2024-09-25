@@ -83,8 +83,12 @@ WSGI_APPLICATION = 'qyavari_bariqner.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'qyavari_bariqner_db',
+        'USER': 'narek',
+        'PASSWORD': 'narek2008',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -144,7 +148,7 @@ EMAIL_HOST_PASSWORD = 'qlez hwbz gxnr uqnk'
 
 
 
-CSRF_TRUSTED_ORIGINS = ['https://fd1b-5-77-207-49.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://a98c-5-77-207-49.ngrok-free.app']
 
 
     

@@ -7,169 +7,280 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
         }
-        h2, h3 {
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .header {
             text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h2 {
+            color: #333;
+        }
+        .stats-cards {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 48%;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #007BFF;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            background-color: #fff;
         }
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px;
             text-align: left;
+            border: 1px solid #ddd;
         }
         th {
-            background-color: #f4f4f4;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
+        .order-link {
             color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .delete-form {
-            display: inline;
-        }
-        .delete-button {
-            color: #FF0000;
-            border: none;
-            background: none;
             cursor: pointer;
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h2>Manager Dashboard</h2>
+    <div class="container">
+        <div class="header">
+            <h2>Manager Dashboard</h2>
+        </div>
 
-    {% comment %} Общий список пользователей {% endcomment %}
-    <h3>Total Users</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Last Login</th>
-                <th>Last Activity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for profile in profiles %}
-                <tr>
-                    <td>{{ profile.user.username }}</td>
-                    <td>{{ profile.user.email }}</td>
-                    <td>{{ profile.user.last_login }}</td>
-                    <td>{{ profile.last_activity }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No users found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- Stats Cards -->
+        <div class="stats-cards">
+            <div class="card" id="totalUsersCard" onclick="openModal('totalUsersModal')">
+                <h3>Total Users</h3>
+                <p>{{ total_users }}</p>
+            </div>
+            <div class="card" id="inactiveUsersCard" onclick="openModal('inactiveUsersModal')">
+                <h3>Inactive Users</h3>
+                <p>{{ inactive_users }}</p>
+            </div>
+        </div>
 
-    {% comment %} Список активных пользователей {% endcomment %}
-    <h3>Active Users</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Last Login</th>
-                <th>Last Activity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for profile in active_profiles %}
+        <!-- Orders Table -->
+        <h3>Orders</h3>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ profile.user.username }}</td>
-                    <td>{{ profile.user.email }}</td>
-                    <td>{{ profile.user.last_login }}</td>
-                    <td>{{ profile.last_activity }}</td>
+                    <th>User</th>
+                    <th>Total Price</th>
+                    <th>Created At</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No active users found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    {% comment %} Список неактивных пользователей {% endcomment %}
-    <h3>Inactive Users</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Last Login</th>
-                <th>Last Activity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for profile in inactive_profiles %}
-                <tr>
-                    <td>{{ profile.user.username }}</td>
-                    <td>{{ profile.user.email }}</td>
-                    <td>{{ profile.user.last_login }}</td>
-                    <td>{{ profile.last_activity|default:"No activity" }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No inactive users found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.user.username }}</td>
+                        <td>{{ order.total_price|floatformat:2 }} ֏</td>
+                        <td>{{ order.created_at }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <span class="order-link" onclick="showOrderDetails({{ order.id }})">View Details</span>
+                            <form class="delete-form" action="{% url 'delete_order' order.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">No orders found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    {% comment %} Список заказов {% endcomment %}
-    <h3>Orders</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>User</th>
-                <th>Total Price</th>
-                <th>Created At</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.user.username }}</td>
-                    <td>{{ order.total_price|floatformat:2 }} ֏</td>
-                    <td>{{ order.created_at }}</td>
-                    <td>{{ order.status }}</td>
-                    <td>
-                        <form class="delete-form" action="{% url 'delete_order' order.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="delete-button">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="6">No orders found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <!-- Modal for Order Details -->
+        <div id="orderDetailsModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('orderDetailsModal')">&times;</span>
+                <h3>Order Details</h3>
+                <table id="orderDetailsTable">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderItemsBody">
+                        <!-- Order items will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <a href="{% url 'logout' %}">Log out</a>
+        <!-- Modal for Total Users -->
+        <div id="totalUsersModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('totalUsersModal')">&times;</span>
+                <h3>Total Users</h3>
+                <table id="totalUserTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Last Login</th>
+                            <th>Last Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in profiles %}
+                            <tr>
+                                <td>{{ profile.user.username }}</td>
+                                <td>{{ profile.user.email }}</td>
+                                <td>{{ profile.user.last_login }}</td>
+                                <td>{{ profile.last_activity }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal for Inactive Users -->
+        <div id="inactiveUsersModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('inactiveUsersModal')">&times;</span>
+                <h3>Inactive Users</h3>
+                <table id="inactiveUserTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Last Login</th>
+                            <th>Last Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for profile in inactive_profiles %}
+                            <tr>
+                                <td>{{ profile.user.username }}</td>
+                                <td>{{ profile.user.email }}</td>
+                                <td>{{ profile.user.last_login }}</td>
+                                <td>{{ profile.last_activity|default:"No activity" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to open modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // Function to close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Fetch order details using AJAX
+        function showOrderDetails(orderId) {
+            fetch(`/order-details/${orderId}/`)  // Assumes your Django URL pattern is /order-details/<order_id>/
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('orderItemsBody');
+                    tbody.innerHTML = '';  // Clear any existing rows
+                    data.items.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.product_name}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price} ֏</td>
+                            <td>${item.total_amount} ֏</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    openModal('orderDetailsModal');
+                })
+                .catch(error => console.error('Error fetching order details:', error));
+        }
+
+        // Close the modal if user clicks outside the modal content
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 </body>
 </html>

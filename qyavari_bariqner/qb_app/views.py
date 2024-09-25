@@ -12,6 +12,7 @@ from .tokens import email_verification_token
 from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_decode
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 def home(request):
     prods = models.Product.objects.all()
@@ -142,7 +143,7 @@ def send_verification_email(user):
     token = email_verification_token.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     verification_link = reverse('verify-email', kwargs={'uidb64': uid, 'token': token})
-    activation_url = f"https://fd1b-5-77-207-49.ngrok-free.app/{verification_link}"
+    activation_url = f"https://a98c-5-77-207-49.ngrok-free.app/{verification_link}"
     
     send_mail(
         'Verify your email',
@@ -229,3 +230,17 @@ def order_confirmation(request, order_id):
 
     return render(request, 'order_confirmation.html', {'order':order, 'total_amount':total_amout})
 
+
+def order_details(request, order_id):
+    order_items = models.OrderItem.objects.filter(order_id=order_id)
+    items_data = [
+        {
+            'product_name': item.product.name,
+            'quantity': item.quantity,
+            'price': float(item.price),
+            'total_amount': float(item.total_amount)
+        }
+        for item in order_items
+    ]
+    
+    return JsonResponse({'items': items_data})
